@@ -88,118 +88,56 @@ function playerMovement() {
 }
 
 function checkCollision(n) {
-    // // Player Left Detection
-    // if (player[0].x < walls[n].xw && player[0].x > walls[n].x && player[0].y < walls[n].yh && player[0].yh > walls[n].y) {
+    // Top Detection
+    if (player[0].y < walls[n].y + walls[n].h && player[0].y > walls[n].y && player[0].x < walls[n].x + walls[n].w && player[0].x + player[0].w > walls[n].x) {
+        reset();
+    }
+    // Left Detection
+    if (player[0].x < walls[n]. x + walls[n].w) {
+        reset();
+    }
+    // if () {
     //     reset();
     // }
-    // // Player Right Detection
-    // if (player[0].xw > walls[n].x && player[0].xw < walls[n].xw && player[0].y < walls[n].yh && player[0].yh > walls[n].y) {
+    // if () {
     //     reset();
     // }
-    // // Player Top Detection
-    // if (player[0].y < walls[n].y + walls[n].h && player[0].y + player[0].h > walls[n].y) {
-    //     reset();
-    // }
-    // // Player Bottom Detection
-    // if (player[0].y + player[0].h > walls[n].y) {
-    //     reset();
-    // }
-
-    if (player[0].yh > walls[n].y && player[0].yh < walls[n].yh && player[0].x < walls[n].x + walls[n].w - player[0].xSpeedMax && player[0].x + player[0].w > walls[n].x + player[0].xSpeedMax) {
-        reset();
-      } else if (player[0].y < walls[n].yh && player[0].y > walls[n].y && player[0].x < walls[n].x + walls[n].w - player[0].xSpeedMax && player[0].x + player[0].w > walls[n].x + player[0].xSpeedMax) {
-        reset();
-      } else if (player[0].x < walls[n].x + walls[n].w && player[0].x > walls[n].x && player[0].y < walls[n].yh && player[0].yh > walls[n].y) {
-        reset();
-      } else if (player[0].x + player[0].w > walls[n].x && player[0].x + player[0].w < walls[n].x + walls[n].w &&player[0].y < walls[n].yh && player[0].yh > walls[n].y) {
-        reset();
-      }
 }
 
-function newPlayer() {
-    player = [];
-    player.push(
-        {
-            x: 100,
-            y: 100,
-            w: 20,
-            h: 20,
-            xh: 0,
-            yh: 0,
-            color: "blue",
-            up: false,
-            left: false,
-            right: false,
-            down: false
+function newPlayer(x1, y1, w1, h1, color1, up1, left1, right1, down1) {
+    return {
+            x: x1,
+            y: y1,
+            w: w1,
+            h: h1,
+            color: color1,
+            up: up1,
+            left: left1,
+            right: right1,
+            down: down1
         } 
-    );
-    player[0].xw = player[0].x + player[0].w;
-    player[0].yh = player[0].y + player[0].h;
+}
+
+function newWall(x1, y1, w1, h1, color1) {
+    return {
+            x: x1,
+            y: y1,
+            w: w1,
+            h: h1,
+            color: color1,
+        }
 }
 
 function reset() {
-    walls = [
-        {
-            x: 0,
-            y: 0,
-            w: cnv.width,
-            h: 20,
-            xh: 0,
-            yh: 0,
-            color: "grey",
-        },
-        {
-            x: 0,
-            y: 0,
-            w: 20,
-            h: cnv.height,
-            xh: 0,
-            yh: 0,
-            color: "grey",
-        },
-        {
-            x: cnv.width - 20,
-            y: 0,
-            w: 20,
-            h: cnv.height,
-            xh: 0,
-            yh: 0,
-            color: "grey",
-        },
-        {
-            x: 0,
-            y: cnv.height - 20,
-            w: cnv.width,
-            h: 20,
-            xh: 0,
-            yh: 0,
-            color: "grey",
-        },
-        {
-            x: 0,
-            y: cnv.height - 20,
-            w: cnv.width,
-            h: 20,
-            xh: 0,
-            yh: 0,
-            color: "grey",
-        },
-        {
-            x: 200,
-            y: 200,
-            w: 10,
-            h: 10,
-            xh: 0,
-            yh: 0,
-            color: "grey",
-        },
-    ];
+    walls = [];
+    walls.push(newWall(0, 0, cnv.width, 20, "grey"));
+    walls.push(newWall(0, 0, 20, cnv.height, "grey"));
+    walls.push(newWall(cnv.width - 20, 0, 20, cnv.height, "grey"));
+    walls.push(newWall(0, cnv.height - 20, cnv.width, 20, "grey"));
+    walls.push(newWall(0, cnv.height - 20, cnv.width, 20, "grey"));
+    walls.push(newWall(200, 200, 10, 10, "grey"));
+    walls.push(newWall(300, 300, 30, 30, "grey"));
 
-    for (let i = 0; i < walls.length; i++) {
-        walls[i].xw = walls[i].x + walls[i].w;
-        walls[i].yh = walls[i].y + walls[i].h;
-    }
-
-
-    newPlayer();
+    player = [];
+    player.push(newPlayer(100, 100, 20, 20, "blue", false, false, false, false,));
 }
