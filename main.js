@@ -2,7 +2,7 @@
 let cnv = document.getElementById("my-canvas");
 let ctx = cnv.getContext("2d");
 cnv.width = 800;
-cnv.height = 500;
+cnv.height = 550;
 
 // EVENT STUFF
 document.addEventListener("keydown", keydownHandler);
@@ -93,15 +93,17 @@ function checkCollision(n) {
         reset();
     }
     // Left Detection
-    if (player[0].x < walls[n]. x + walls[n].w) {
+    if (player[0].x < walls[n]. x + walls[n].w && player[0].x > walls[n].x && player[0].y < walls[n].y + walls[n].h && player[0].y + player[0].h > walls[n].y) {
         reset();
     }
-    // if () {
-    //     reset();
-    // }
-    // if () {
-    //     reset();
-    // }
+    // Right Detection
+    if (player[0].x + player[0].w > walls[n]. x && player[0].x + player[0].w  < walls[n].x + walls[n].w && player[0].y < walls[n].y + walls[n].h && player[0].y + player[0].h > walls[n].y) {
+        reset();
+    }
+    // Bottom Detection
+    if (player[0].y + player[0].h > walls[n].y && player[0].y + player[0].h < walls[n].y + walls[n].h && player[0].x < walls[n].x + walls[n].w && player[0].x + player[0].w > walls[n].x) {
+        reset();
+    }
 }
 
 function newPlayer(x1, y1, w1, h1, color1, up1, left1, right1, down1) {
@@ -135,9 +137,17 @@ function reset() {
     walls.push(newWall(cnv.width - 20, 0, 20, cnv.height, "grey"));
     walls.push(newWall(0, cnv.height - 20, cnv.width, 20, "grey"));
     walls.push(newWall(0, cnv.height - 20, cnv.width, 20, "grey"));
-    walls.push(newWall(200, 200, 10, 10, "grey"));
-    walls.push(newWall(300, 300, 30, 30, "grey"));
+    walls.push(newWall(125, 175, 100, 20, "grey"));
+    walls.push(newWall(500, 20, 20, 100, "grey"));
+    walls.push(newWall(300, 100, 20, 225, "grey"));
+    walls.push(newWall(400, 150, 150, 20, "grey"));
+    walls.push(newWall(450, 250, 20, 150, "grey"));
+    walls.push(newWall(600, 200, 150, 20, "grey"));
+    walls.push(newWall(200, 325, 20, 175, "grey"));
+    walls.push(newWall(600, 300, 20, 150, "grey"));
+    walls.push(newWall(250, 400, 150, 20, "grey"));
+    walls.push(newWall(380, 450, 20, 100, "grey"));
 
     player = [];
-    player.push(newPlayer(100, 100, 20, 20, "blue", false, false, false, false,));
+    player.push(newPlayer(50, cnv.height / 2, 20, 20, "blue", false, false, false, false,));
 }
