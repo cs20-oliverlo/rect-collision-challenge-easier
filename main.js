@@ -73,16 +73,16 @@ function draw(shape, n) {
 
 function playerMovement() {
     if (player.up === true) {
-        player.y -= 5;
+        player.y -= player.v;
     }
     if (player.left === true) {
-        player.x -= 5;
+        player.x -= player.v;
     }
     if (player.right === true) {
-        player.x += 5;
+        player.x += player.v;
     }
     if (player.down === true) {
-        player.y += 5;
+        player.y += player.v;
     }
 }
 
@@ -141,6 +141,7 @@ function reset() {
         y: cnv.height / 2,
         w: 20,
         h: 20,
+        v: 5,
         color: "blue",
         up: false,
         left: false,
