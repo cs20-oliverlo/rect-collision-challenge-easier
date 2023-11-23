@@ -10,38 +10,37 @@ document.addEventListener("keyup", keyupHandler);
 
 function keydownHandler(event) {
     if (event.code === "ArrowUp") {
-        player[0].up = true;
+        player.up = true;
     }
     if (event.code === "ArrowLeft") {
-        player[0].left = true;
+        player.left = true;
     }
     if (event.code === "ArrowRight") {
-        player[0].right = true;
+        player.right = true;
     }
     if (event.code === "ArrowDown") {
-        player[0].down = true;
+        player.down = true;
     }
 }
 
 function keyupHandler(event) {
     if (event.code === "ArrowUp") {
-        player[0].up = false;
+        player.up = false;
     }
     if (event.code === "ArrowLeft") {
-        player[0].left = false;
+        player.left = false;
     }
     if (event.code === "ArrowRight") {
-        player[0].right = false;
+        player.right = false;
     }
     if (event.code === "ArrowDown") {
-        player[0].down = false;
+        player.down = false;
     }
 }
 
 // Reset Variables
-let player = [];
-// (walls variable declared here so that I can put the whole variable at the bottom)
-let walls = [];
+let walls;
+let player;
 
 reset();
 
@@ -51,73 +50,62 @@ function animate() {
       ctx.clearRect(0, 0, cnv.width, cnv.height);
 
     for (let i = 0; i < walls.length; i++) {
-        drawWalls(i);
-        checkCollision(i);
+        draw(walls, i);
     }
 
-    drawPlayer();
+    draw(player);
     playerMovement();
+    checkCollision();
 
     // Request Animation Frame
     requestAnimationFrame(animate);
 }
 
-function drawWalls(n) {
-    ctx.fillStyle = `${walls[n].color}`;
-    ctx.fillRect(walls[n].x, walls[n].y, walls[n].w, walls[n].h);
-}
-
-function drawPlayer() {
-    ctx.fillStyle = `${player[0].color}`;
-    ctx.fillRect(player[0].x, player[0].y, player[0].w, player[0].h);
+function draw(shape, n) {
+    if (shape === walls) {
+        ctx.fillStyle = `${shape[n].color}`;
+        ctx.fillRect(shape[n].x, shape[n].y, shape[n].w, shape[n].h);
+    } else {
+        ctx.fillStyle = `${shape.color}`;
+        ctx.fillRect(shape.x, shape.y, shape.w, shape.h);
+    }
 }
 
 function playerMovement() {
-    if (player[0].up === true) {
-        player[0].y -= 5;
+    if (player.up === true) {
+        player.y -= 5;
     }
-    if (player[0].left === true) {
-        player[0].x -= 5;
+    if (player.left === true) {
+        player.x -= 5;
     }
-    if (player[0].right === true) {
-        player[0].x += 5;
+    if (player.right === true) {
+        player.x += 5;
     }
-    if (player[0].down === true) {
-        player[0].y += 5;
-    }
-}
-
-function checkCollision(n) {
-    // Top Detection
-    if (player[0].y < walls[n].y + walls[n].h && player[0].y > walls[n].y && player[0].x < walls[n].x + walls[n].w && player[0].x + player[0].w > walls[n].x) {
-        reset();
-    }
-    // Left Detection
-    if (player[0].x < walls[n]. x + walls[n].w && player[0].x > walls[n].x && player[0].y < walls[n].y + walls[n].h && player[0].y + player[0].h > walls[n].y) {
-        reset();
-    }
-    // Right Detection
-    if (player[0].x + player[0].w > walls[n]. x && player[0].x + player[0].w  < walls[n].x + walls[n].w && player[0].y < walls[n].y + walls[n].h && player[0].y + player[0].h > walls[n].y) {
-        reset();
-    }
-    // Bottom Detection
-    if (player[0].y + player[0].h > walls[n].y && player[0].y + player[0].h < walls[n].y + walls[n].h && player[0].x < walls[n].x + walls[n].w && player[0].x + player[0].w > walls[n].x) {
-        reset();
+    if (player.down === true) {
+        player.y += 5;
     }
 }
 
-function newPlayer(x1, y1, w1, h1, color1, up1, left1, right1, down1) {
-    return {
-            x: x1,
-            y: y1,
-            w: w1,
-            h: h1,
-            color: color1,
-            up: up1,
-            left: left1,
-            right: right1,
-            down: down1
-        } 
+function checkCollision() {
+    // Walls Detection
+    for (let i = 0; i < walls.length; i++) {
+        // Top (of player)
+        if (player.y < walls[i].y + walls[i].h && player.y > walls[i].y && player.x < walls[i].x + walls[i].w && player.x + player.w > walls[i].x) {
+            reset();
+        }
+        // Left (of player)
+        if (player.x < walls[i]. x + walls[i].w && player.x > walls[i].x && player.y < walls[i].y + walls[i].h && player.y + player.h > walls[i].y) {
+            reset();
+        }
+        // Right (of player)
+        if (player.x + player.w > walls[i]. x && player.x + player.w  < walls[i].x + walls[i].w && player.y < walls[i].y + walls[i].h && player.y + player.h > walls[i].y) {
+            reset();
+        }
+        // Bottom (of player)
+        if (player.y + player.h > walls[i].y && player.y + player.h < walls[i].y + walls[i].h && player.x < walls[i].x + walls[i].w && player.x + player.w > walls[i].x) {
+            reset();
+        }
+    }
 }
 
 function newWall(x1, y1, w1, h1, color1) {
@@ -148,6 +136,15 @@ function reset() {
     walls.push(newWall(250, 400, 150, 20, "grey"));
     walls.push(newWall(380, 450, 20, 100, "grey"));
 
-    player = [];
-    player.push(newPlayer(50, cnv.height / 2, 20, 20, "blue", false, false, false, false,));
+    player = { 
+        x: 50,
+        y: cnv.height / 2,
+        w: 20,
+        h: 20,
+        color: "blue",
+        up: false,
+        left: false,
+        right: false,
+        down: false
+    };
 }
