@@ -39,8 +39,8 @@ function keyupHandler(event) {
 }
 
 // Reset Variables
-let walls;
 let player;
+let walls;
 
 reset();
 
