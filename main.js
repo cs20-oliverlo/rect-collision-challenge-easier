@@ -119,6 +119,19 @@ function newWall(x1, y1, w1, h1, color1) {
 }
 
 function reset() {
+    player = { 
+        x: 50,
+        y: cnv.height / 2,
+        w: 20,
+        h: 20,
+        v: 5,
+        color: "blue",
+        up: false,
+        left: false,
+        right: false,
+        down: false
+    };
+    
     walls = [];
     walls.push(newWall(0, 0, cnv.width, 20, "grey"));
     walls.push(newWall(0, 0, 20, cnv.height, "grey"));
@@ -135,17 +148,4 @@ function reset() {
     walls.push(newWall(600, 300, 20, 150, "grey"));
     walls.push(newWall(250, 400, 150, 20, "grey"));
     walls.push(newWall(380, 450, 20, 100, "grey"));
-
-    player = { 
-        x: 50,
-        y: cnv.height / 2,
-        w: 20,
-        h: 20,
-        v: 5,
-        color: "blue",
-        up: false,
-        left: false,
-        right: false,
-        down: false
-    };
 }
